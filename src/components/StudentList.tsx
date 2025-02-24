@@ -14,6 +14,7 @@ import {
   DialogActions,
   TextField,
   Button,
+  Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -77,13 +78,25 @@ const StudentList = ({ refresh }: StudentListProps) => {
   if (loading) return <CircularProgress />;
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
+    <Container  sx={{
+      paddingTop: "35px"
+    }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center" }}>
         Alunos Cadastrados
       </Typography>
       <List>
         {students.map((student) => (
-          <ListItem key={student.id} divider>
+          <ListItem
+            key={student.id}
+            divider
+            sx={{
+              "@media (min-width: 320px) and (max-width: 425px)": {
+                alignItems: "center",
+                textAlign: "center",
+                flexDirection: "column",
+              },
+            }}
+          >
             <ListItemText
               primary={student.name}
               secondary={`${student.email} | ${new Date(
@@ -97,15 +110,23 @@ const StudentList = ({ refresh }: StudentListProps) => {
             >
               Ver Cursos
             </Button>
-            <IconButton onClick={() => handleEdit(student)} aria-label="edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => deleteStudent(student.id)}
-              aria-label="delete"
+            <Box
+              sx={{
+                "@media (min-width: 320px) and (max-width: 425px)": {
+                  padding: "10%",
+                },
+              }}
             >
-              <DeleteIcon />
-            </IconButton>
+              <IconButton onClick={() => handleEdit(student)} aria-label="edit">
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => deleteStudent(student.id)}
+                aria-label="delete"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </ListItem>
         ))}
       </List>

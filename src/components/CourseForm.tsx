@@ -29,18 +29,34 @@ const CourseForm = ({ onCourseAdded }: { onCourseAdded: () => void }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", gap: 2, mb: 2 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: "flex",
+        flexDirection: "row", 
+        gap: 2,
+        mb: 2,
+        "@media (max-width: 425px)": {
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center", 
+        },
+      }}
+    >
       <TextField
         label="Nome do Curso"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
+        sx={{ width: { xs: "100%", sm: "auto" } }} 
       />
       <TextField
         label="Descrição"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
+        sx={{ width: { xs: "100%", sm: "auto" } }} 
       />
       <Button type="submit" variant="contained" color="primary">
         Cadastrar Curso

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AxiosError } from "axios";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Container } from "@mui/material";
 import api from "../services/api";
 
 const StudentForm = ({ onStudentAdded }: { onStudentAdded: () => void }) => {
@@ -39,36 +39,61 @@ const StudentForm = ({ onStudentAdded }: { onStudentAdded: () => void }) => {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 2, mb: 2 }}
-    >
-      <TextField
-        label="Nome do Aluno"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <TextField
-        label="E-mail"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <TextField
-        label="Data de Nascimento"
-        type="date"
-        InputLabelProps={{ shrink: true }}
-        value={dateOfBirth}
-        onChange={(e) => setDateOfBirth(e.target.value)}
-        required
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Cadastrar Aluno
-      </Button>
-    </Box>
+    <Container>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          mb: 2,
+          "@media (min-width: 320px) and (max-width: 425px)": {
+            flexDirection: "column",
+          },
+          "@media (min-width: 426px)": {
+            flexDirection: "row",
+            gap: 2,
+            "& > *": {
+              flex: 1,
+            },
+          },
+        }}
+      >
+        <TextField
+          label="Nome do Aluno"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          fullWidth
+        />
+        <TextField
+          label="E-mail"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          fullWidth
+        />
+        <TextField
+          label="Data de Nascimento"
+          type="date"
+          InputLabelProps={{ shrink: true }}
+          value={dateOfBirth}
+          onChange={(e) => setDateOfBirth(e.target.value)}
+          required
+          fullWidth
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+        >
+          Cadastrar Aluno
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

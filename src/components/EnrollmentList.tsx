@@ -8,6 +8,7 @@ import {
   Typography,
   Container,
   IconButton,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -35,8 +36,6 @@ interface EnrollmentListProps {
 
 const EnrollmentList = ({ refresh }: EnrollmentListProps) => {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [students, setStudents] = useState<Student[]>([]);
-  const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,24 +46,27 @@ const EnrollmentList = ({ refresh }: EnrollmentListProps) => {
       api.get<Course[]>("/courses"),
     ])
       .then(([enrollmentsRes, studentsRes, coursesRes]) => {
-        const studentsMap = new Map(studentsRes.data.map((s) => [s.id, s.name]));
+        const studentsMap = new Map(
+          studentsRes.data.map((s) => [s.id, s.name])
+        );
         const coursesMap = new Map(coursesRes.data.map((c) => [c.id, c.name]));
         const enrichedEnrollments = enrollmentsRes.data.map((enrollment) => ({
           ...enrollment,
-          studentName: studentsMap.get(enrollment.studentId) || "Aluno desconhecido",
-          courseName: coursesMap.get(enrollment.courseId) || "Curso desconhecido",
+          studentName:
+            studentsMap.get(enrollment.studentId) || "Aluno desconhecido",
+          courseName:
+            coursesMap.get(enrollment.courseId) || "Curso desconhecido",
         }));
 
         setEnrollments(enrichedEnrollments);
-        setStudents(studentsRes.data);
-        setCourses(coursesRes.data);
       })
       .catch((error) => console.error("Erro ao buscar dados:", error))
       .finally(() => setLoading(false));
   }, [refresh]);
 
   const deleteEnrollment = async (id: number) => {
-    if (!window.confirm("Tem certeza que deseja remover esta matrícula?")) return;
+    if (!window.confirm("Tem certeza que deseja remover esta matrícula?"))
+      return;
     try {
       await api.delete(`/enrollments/${id}`);
       setEnrollments(enrollments.filter((enrollment) => enrollment.id !== id));
@@ -75,17 +77,20 @@ const EnrollmentList = ({ refresh }: EnrollmentListProps) => {
 
   if (loading) return <CircularProgress />;
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Matrículas
-      </Typography>
+    <Container sx={{ paddingTop: "35px" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <Typography variant="h4">Matrículas</Typography>
+      </Box>
       <List>
         {enrollments.map((enrollment) => (
           <ListItem key={enrollment.id} divider>
             <ListItemText
               primary={`${enrollment.studentName} - ${enrollment.courseName}`}
             />
-            <IconButton onClick={() => deleteEnrollment(enrollment.id)} aria-label="delete">
+            <IconButton
+              onClick={() => deleteEnrollment(enrollment.id)}
+              aria-label="delete"
+            >
               <DeleteIcon />
             </IconButton>
           </ListItem>

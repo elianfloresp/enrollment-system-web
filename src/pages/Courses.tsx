@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CourseForm from "../components/CourseForm";
 import CourseList from "../components/CoursesList";
+import { Box, Container, Typography } from "@mui/material";
 
 const Courses = () => {
   const [refresh, setRefresh] = useState(false);
@@ -10,11 +11,15 @@ const Courses = () => {
   };
 
   return (
+    <Container maxWidth="lg">
     <div>
-      <h1>Cursos</h1>
+    <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <Typography variant="h4">Cadastro de Cursos</Typography>
+      </Box>
       <CourseForm onCourseAdded={handleCourseAdded} />
       <CourseList refresh={refresh} />
     </div>
+    </Container>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Container,
 } from "@mui/material";
 import api from "../services/api";
 import { AxiosError } from "axios";
@@ -51,7 +52,6 @@ const EnrollmentForm = ({
         courseId: selectedCourse,
       });
     
-      
       setSelectedStudent("");
       setSelectedCourse("");
       onEnrollmentAdded();
@@ -66,50 +66,68 @@ const EnrollmentForm = ({
       console.error("Erro ao matricular aluno:", error);
     }
   };
+
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 2, mb: 2 }}
-    >
-      <FormControl fullWidth>
-        <InputLabel id="student-label">Aluno</InputLabel>
-        <Select
-          labelId="student-label"
-          value={selectedStudent}
-          onChange={(e) => setSelectedStudent(e.target.value as number)}
-          label="Aluno"
-          required
-        >
-          {students.map((student) => (
-            <MenuItem key={student.id} value={student.id}>
-              {student.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+    <Container>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          mb: 2,
+          "@media (min-width: 320px) and (max-width: 425px)": {
+            flexDirection: "column",
+          },
+          "@media (min-width: 426px)": {
+            flexDirection: "row",
+            gap: 2,
+            "& > *": {
+              flex: 1,
+            },
+          },
+        }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="student-label">Aluno</InputLabel>
+          <Select
+            labelId="student-label"
+            value={selectedStudent}
+            onChange={(e) => setSelectedStudent(e.target.value as number)}
+            label="Aluno"
+            required
+          >
+            {students.map((student) => (
+              <MenuItem key={student.id} value={student.id}>
+                {student.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <FormControl fullWidth>
-        <InputLabel id="course-label">Curso</InputLabel>
-        <Select
-          labelId="course-label"
-          value={selectedCourse}
-          onChange={(e) => setSelectedCourse(e.target.value as number)}
-          label="Curso"
-          required
-        >
-          {courses.map((course) => (
-            <MenuItem key={course.id} value={course.id}>
-              {course.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <FormControl fullWidth>
+          <InputLabel id="course-label">Curso</InputLabel>
+          <Select
+            labelId="course-label"
+            value={selectedCourse}
+            onChange={(e) => setSelectedCourse(e.target.value as number)}
+            label="Curso"
+            required
+          >
+            {courses.map((course) => (
+              <MenuItem key={course.id} value={course.id}>
+                {course.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <Button type="submit" variant="contained" color="primary">
-        Matricular Aluno
-      </Button>
-    </Box>
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Matricular Aluno
+        </Button>
+      </Box>
+    </Container>
   );
 };
 

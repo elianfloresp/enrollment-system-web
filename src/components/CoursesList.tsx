@@ -14,6 +14,7 @@ import {
   DialogTitle,
   TextField,
   Button,
+  Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -74,14 +75,30 @@ const CourseList = ({ refresh }: CourseListProps) => {
   if (loading) return <CircularProgress />;
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Cursos Disponíveis
-      </Typography>
+    <Container 
+    sx={{
+      paddingTop: "35px"
+    }}>
+       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+        <Typography variant="h4">Cursos Disponíveis</Typography>
+      </Box>
       <List>
         {courses.map((course) => (
-          <ListItem key={course.id} divider>
-            <ListItemText primary={course.name} secondary={course.description} />
+          <ListItem
+            key={course.id}
+            divider
+            sx={{
+              "@media (min-width: 320px) and (max-width: 425px)": {
+                alignItems: "center",
+                textAlign: "center",
+                flexDirection: "column",
+              },
+            }}
+          >
+            <ListItemText
+              primary={course.name}
+              secondary={course.description}
+            />
             <Button
               variant="outlined"
               color="primary"
@@ -89,12 +106,23 @@ const CourseList = ({ refresh }: CourseListProps) => {
             >
               Ver Alunos
             </Button>
-            <IconButton onClick={() => handleEdit(course)} aria-label="edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={() => deleteCourse(course.id)} aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
+            <Box
+              sx={{
+                "@media (min-width: 320px) and (max-width: 425px)": {
+                  padding: "10%"
+                },
+              }}
+            >
+              <IconButton onClick={() => handleEdit(course)} aria-label="edit">
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => deleteCourse(course.id)}
+                aria-label="delete"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </ListItem>
         ))}
       </List>
@@ -106,14 +134,20 @@ const CourseList = ({ refresh }: CourseListProps) => {
             fullWidth
             margin="dense"
             value={editCourse?.name || ""}
-            onChange={(e) => setEditCourse((prev) => prev && { ...prev, name: e.target.value })}
+            onChange={(e) =>
+              setEditCourse((prev) => prev && { ...prev, name: e.target.value })
+            }
           />
           <TextField
             label="Descrição"
             fullWidth
             margin="dense"
             value={editCourse?.description || ""}
-            onChange={(e) => setEditCourse((prev) => prev && { ...prev, description: e.target.value })}
+            onChange={(e) =>
+              setEditCourse(
+                (prev) => prev && { ...prev, description: e.target.value }
+              )
+            }
           />
         </DialogContent>
         <DialogActions>
