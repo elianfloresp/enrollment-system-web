@@ -72,4 +72,5 @@ frontend/
 - The front-end follows best practices with React and Material UI.
 - The application is structured to ensure maintainability and scalability.
 - The README provides all necessary instructions for running and testing the project.
+- The back-end is developed using .NET 8 with Entity Framework Core and an SQLite database for data persistence.
 
