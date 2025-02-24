@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AxiosError } from "axios";
 import { TextField, Button, Box } from "@mui/material";
 import api from "../services/api";
 
@@ -15,25 +16,34 @@ const StudentForm = ({ onStudentAdded }: { onStudentAdded: () => void }) => {
     }
 
     try {
-      const response = await api.post("/students", {
+      await api.post("/students", {
         name,
         email,
         dateOfBirth,
       });
-      console.log("Resposta da API:", response.data);
       alert("Aluno cadastrado com sucesso!");
       onStudentAdded();
       setName("");
       setEmail("");
       setDateOfBirth("");
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response) {
+        alert(error.response.data);
+      } else {
+        alert(
+          "Erro ao cadastrar aluno. Verifique o console para mais detalhes."
+        );
+      }
       console.error("Erro ao cadastrar aluno:", error);
-      alert("Erro ao cadastrar aluno. Verifique o console para mais detalhes.");
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", gap: 2, mb: 2 }}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", gap: 2, mb: 2 }}
+    >
       <TextField
         label="Nome do Aluno"
         value={name}
