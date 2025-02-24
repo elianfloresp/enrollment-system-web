@@ -1,50 +1,75 @@
-# React + TypeScript + Vite
+# Enrollment Management Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is the front-end of the enrollment tracking system, built with React.js and TypeScript. It allows users to manage courses, students, and enrollments through an intuitive web interface. The application communicates with a back-end API built with .NET 8 and Entity Framework Core.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
 
-## Expanding the ESLint configuration
+- React.js
+- TypeScript
+- Vite
+- React Router
+- Material UI (MUI)
+- Axios (for API requests)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation and Configuration
 
-- Configure the top-level `parserOptions` property like this:
+### 1. Clone the Repository
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```sh
+git clone <REPOSITORY_URL>
+cd frontend
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+npm install
 ```
+
+### 3. Run the Application
+
+```sh
+npm run dev
+```
+
+The front-end will run on `http://localhost:5173` or `http://localhost:5174`, depending on the available port.
+
+## Connecting with the API
+
+The front-end communicates with a back-end API developed using **.NET 8** and **Entity Framework Core**. The API is responsible for handling course, student, and enrollment management.
+
+- Repository: [https://github.com/elianfloresp/enrollment-management-api](<REPO_URL>)
+- Default API URL: `http://localhost:5288` (check API settings for the correct port)
+- Ensure CORS settings allow requests from the front-end.
+
+## Features
+
+- **Courses Management**: Create, list, edit, and delete courses.
+- **Students Management**: Register, list, edit, and delete students (must be 18 years or older).
+- **Enrollments Management**: Enroll students in courses and remove them when necessary.
+- **Filtering and Listing**: View all courses, students, and students enrolled in specific courses.
+
+## Folder Structure
+
+```
+frontend/
+│── src/
+│   ├── components/      # Reusable UI components
+│   ├── pages/           # Main application pages
+│   ├── services/        # API request handling (Axios)
+│   ├── hooks/           # Custom React hooks
+│   ├── styles/          # Global styles and themes
+│   ├── App.tsx          # Main application file
+│   ├── main.tsx         # Entry point
+│── public/              # Static assets
+│── package.json         # Project dependencies
+```
+
+## Final Considerations
+
+- The front-end follows best practices with React and Material UI.
+- The application is structured to ensure maintainability and scalability.
+- The README provides all necessary instructions for running and testing the project.
+
