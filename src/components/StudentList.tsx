@@ -15,7 +15,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -34,6 +34,7 @@ const StudentList = ({ refresh }: StudentListProps) => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [editStudent, setEditStudent] = useState<Student | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -64,7 +65,9 @@ const StudentList = ({ refresh }: StudentListProps) => {
     if (!editStudent) return;
     try {
       await api.put(`/students/${editStudent.id}`, editStudent);
-      setStudents(students.map((s) => (s.id === editStudent.id ? editStudent : s)));
+      setStudents(
+        students.map((s) => (s.id === editStudent.id ? editStudent : s))
+      );
       setEditStudent(null);
     } catch (error) {
       console.error("Erro ao atualizar aluno", error);
@@ -82,20 +85,25 @@ const StudentList = ({ refresh }: StudentListProps) => {
         {students.map((student) => (
           <ListItem key={student.id} divider>
             <ListItemText
-              primary={
-                <Link
-                  to={`/students/${student.id}/courses`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {student.name}
-                </Link>
-              }
-              secondary={`${student.email} | ${new Date(student.dateOfBirth).toLocaleDateString()}`}
+              primary={student.name}
+              secondary={`${student.email} | ${new Date(
+                student.dateOfBirth
+              ).toLocaleDateString()}`}
             />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate(`/students/${student.id}/courses`)}
+            >
+              Ver Cursos
+            </Button>
             <IconButton onClick={() => handleEdit(student)} aria-label="edit">
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => deleteStudent(student.id)} aria-label="delete">
+            <IconButton
+              onClick={() => deleteStudent(student.id)}
+              aria-label="delete"
+            >
               <DeleteIcon />
             </IconButton>
           </ListItem>
@@ -109,7 +117,9 @@ const StudentList = ({ refresh }: StudentListProps) => {
             fullWidth
             margin="dense"
             value={editStudent?.name || ""}
-            onChange={(e) => setEditStudent({ ...editStudent!, name: e.target.value })}
+            onChange={(e) =>
+              setEditStudent({ ...editStudent!, name: e.target.value })
+            }
           />
           <TextField
             label="E-mail"
@@ -117,7 +127,9 @@ const StudentList = ({ refresh }: StudentListProps) => {
             margin="dense"
             type="email"
             value={editStudent?.email || ""}
-            onChange={(e) => setEditStudent({ ...editStudent!, email: e.target.value })}
+            onChange={(e) =>
+              setEditStudent({ ...editStudent!, email: e.target.value })
+            }
           />
           <TextField
             label="Data de Nascimento"
@@ -126,7 +138,9 @@ const StudentList = ({ refresh }: StudentListProps) => {
             type="date"
             InputLabelProps={{ shrink: true }}
             value={editStudent?.dateOfBirth || ""}
-            onChange={(e) => setEditStudent({ ...editStudent!, dateOfBirth: e.target.value })}
+            onChange={(e) =>
+              setEditStudent({ ...editStudent!, dateOfBirth: e.target.value })
+            }
           />
         </DialogContent>
         <DialogActions>

@@ -15,7 +15,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -33,6 +33,7 @@ const CourseList = ({ refresh }: CourseListProps) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [editCourse, setEditCourse] = useState<Course | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -80,17 +81,14 @@ const CourseList = ({ refresh }: CourseListProps) => {
       <List>
         {courses.map((course) => (
           <ListItem key={course.id} divider>
-            <ListItemText
-              primary={
-                <Link
-                  to={`/courses/${course.id}/students`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  {course.name}
-                </Link>
-              }
-              secondary={course.description}
-            />
+            <ListItemText primary={course.name} secondary={course.description} />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => navigate(`/courses/${course.id}/students`)}
+            >
+              Ver Alunos
+            </Button>
             <IconButton onClick={() => handleEdit(course)} aria-label="edit">
               <EditIcon />
             </IconButton>
@@ -100,8 +98,6 @@ const CourseList = ({ refresh }: CourseListProps) => {
           </ListItem>
         ))}
       </List>
-
-      {/* Modal de edição */}
       <Dialog open={!!editCourse} onClose={() => setEditCourse(null)}>
         <DialogTitle>Editar Curso</DialogTitle>
         <DialogContent>

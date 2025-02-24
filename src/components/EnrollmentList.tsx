@@ -74,7 +74,6 @@ const EnrollmentList = ({ refresh }: EnrollmentListProps) => {
   };
 
   if (loading) return <CircularProgress />;
-
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
